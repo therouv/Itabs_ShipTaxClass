@@ -5,11 +5,13 @@
  *
  * @category   Mage
  * @package    Itabs_ShipTaxClass
- * @author     ITABS GmbH - Rouven Alexander Rieker <rouven.rieker@itabs.de>
+ * @author     ITABS GbR - Rouven Alexander Rieker <rouven.rieker@itabs.de>
  */
 class Itabs_ShipTaxClass_Model_Config extends Mage_Tax_Model_Config
-{    
-    
+{	
+    const CONFIG_XML_PATH_IGNORE_SHIPPINGTAX_CUSTOMERGROUP = 'tax/classes/ignore_shippingtax_customergroup';
+    const CONFIG_XML_PATH_IGNORE_SHIPPINGTAX_CUSTOMERGROUP_TAXCLASSID = 'tax/classes/ignore_shippingtax_customergroup_taxclassid';
+
     /**
      * Get tax class id specified for shipping tax estimation
      * 
@@ -18,40 +20,47 @@ class Itabs_ShipTaxClass_Model_Config extends Mage_Tax_Model_Config
      * @param   store $store
      * @return  int
      */
-    public function getShippingTaxClass($store=null)
-    {
-        $_session = Mage::getSingleton('checkout/session');                                // Get current checkout session
-        $_quoteItems = $_session->getQuote()->getAllItems();                            // Get all products in cart
-        $_taxClassIds = array();                                                        // Save all tax class ids found in cart in this array
-        $_highestTaxRate = null;                                                        // highest Tax value found in all available tax classes
-        
-        if(count($_quoteItems) > 0) {
-            
-            foreach($_quoteItems as $_item) {
-                if($_item->getParentItem())
-                    continue;
-                
-                $_taxPercent = $_item->getTaxPercent();                                    // Get tax percent of product
-                if(is_float($_taxPercent) && !in_array($_taxPercent, $_taxClassIds)) {
-                    $_taxClassIds[$_taxPercent] = $_item->getTaxClassId();
-                }
-            }
-            
-            ksort($_taxClassIds);
-            if(count($_taxClassIds)) {
-                $_highestTaxRate = array_pop($_taxClassIds);                            // Find highest tax rate
-            }
-            
-            if(!$_highestTaxRate) {                                                        // If _highestTaxRate is null, return 0 for no shipping taxes
-                $taxClassId = 0;
-            } else {
-                $taxClassId = $_highestTaxRate;
-            }
-        
-        } else {
-            $taxClassId = Mage::getStoreConfig(self::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
-        }
+    public function getShippingTaxClass($store=null) {
+    	$ignoreShippingtaxCustomergroups = Mage::getStoreConfig(self::CONFIG_XML_PATH_IGNORE_SHIPPINGTAX_CUSTOMERGROUP);
+    	$ignoreShippingtaxCustomergroupsTaxclassid = Mage::getStoreConfig(self::CONFIG_XML_PATH_IGNORE_SHIPPINGTAX_CUSTOMERGROUP_TAXCLASSID);
+        $session = Mage::getSingleton('checkout/session');
+    	if($ignoreShippingtaxCustomergroups && $ignoreShippingtaxCustomergroupsTaxclassid && $session->hasQuote()) {
 
-        return (int)$taxClassId;
+		    $customerGroupId = $session->getQuote()->getCustomerGroupId();
+		    //$customerGroupTaxId = Mage::getSingleton('customer/group')->load($customerGroupId)->getTaxClassId();
+
+		    if(in_array($customerGroupId, explode(',', $ignoreShippingtaxCustomergroups))) {
+		    	return $ignoreShippingtaxCustomergroupsTaxclassid;
+		    }
+    	}
+		if (Mage::getSingleton('checkout/session')->getData('shiptaxclass_highestaxrateclass')) {
+			$taxClassId = Mage::getSingleton('checkout/session')->getData('shiptaxclass_highestaxrateclass');
+		} else {
+			$taxClassId = Mage::getStoreConfig(self::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
+		}
+		
+		return $taxClassId;
+    }
+    
+    /**
+     * Get tax rate specified for shipping tax estimation
+     * 
+     * CUSTOM: Select shipping tax rate based on highest product tax rate
+     *
+     * @param   store $store
+     * @return  int
+     */
+    public function getShippingTaxRate($store=null) {
+		if (Mage::getSingleton('checkout/session')->getData('shiptaxclass_highestaxrate')) {
+			$taxRate = Mage::getSingleton('checkout/session')->getData('shiptaxclass_highestaxrate');
+		} else {
+			/*
+			 * TODO
+			 * reading a storeConfig TaxClass instead of a tax rate is not the expected behaviour XD
+			 */
+			$taxRate = Mage::getStoreConfig(self::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
+		}
+		
+		return $taxRate;
     }
 }
