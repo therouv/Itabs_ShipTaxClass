@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Itabs_ShipTaxClass>
+            <version>0.1.0</version>
+        </Itabs_ShipTaxClass>
+    </modules>
+    <global>
+        <models>
+            <shiptaxclass>
+                <class>Itabs_ShipTaxClass_Model</class>
+            </shiptaxclass>
+            <tax>
+                <rewrite>
+                    <config>Itabs_ShipTaxClass_Model_Config</config>
+                </rewrite>
+            </tax>
+        </models>
+    </global>
+</config>
