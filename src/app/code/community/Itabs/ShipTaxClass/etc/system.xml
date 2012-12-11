@@ -1,53 +1,30 @@
 <?xml version="1.0"?>
-<!--
+<!-- 
 /**
- * Magento
+ * This file is part of the Itabs_ShipTaxClass project.
  *
- * NOTICE OF LICENSE
+ * Itabs_ShipTaxClass is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
+ * This script is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * @category   Phoenix
- * @package    Phoenix_CashOnDelivery
- * @copyright  Copyright (c) 2008-2009 Andrej Sinicyn, Mik3e
- * @copyright  Copyright (c) 2010 Phoenix Medien GmbH & Co. KG (http://www.phoenix-medien.de)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category  Itabs
+ * @package   Itabs_ShipTaxClass
+ * @author    Rouven Alexander Rieker <rouven.rieker@itabs.de>
+ * @author    Steffen Meuser <magento@flagbit.de>
+ * @copyright 2012 ITABS GmbH + Flagbit GmbH & Co. KG. All rights served.
+ * @license   http://opensource.org/licenses/gpl-3.0 GNU General Public License, version 3 (GPLv3)
+ * @version   0.1.0
+ * @since     0.1.0
  */
--->
+ -->
 <config>
    <sections>
-        <payment>
+        <tax>
             <groups>
-                <cashondelivery translate="label" module="payment">
-                    <fields>
-                        <min_order_total translate="label">
-                            <label>Minimum Order Total</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>98</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </min_order_total>
-                        <max_order_total translate="label">
-                            <label>Maximum Order Total</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>99</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </max_order_total>
-                    </fields>
-                </cashondelivery>
-			</groups>
-		</payment>
-		<tax>
-			<groups>
                 <classes translate="label comment">
                     <fields>
                         <ignore_shippingtax_customergroup translate="label">

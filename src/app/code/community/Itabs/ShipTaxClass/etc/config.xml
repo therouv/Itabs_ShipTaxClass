@@ -1,33 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * This file is part of the Itabs_ShipTaxClass project.
+ *
+ * Itabs_ShipTaxClass is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * @category  Itabs
+ * @package   Itabs_ShipTaxClass
+ * @author    Rouven Alexander Rieker <rouven.rieker@itabs.de>
+ * @author    Steffen Meuser <magento@flagbit.de>
+ * @copyright 2012 ITABS GmbH + Flagbit GmbH & Co. KG. All rights served.
+ * @license   http://opensource.org/licenses/gpl-3.0 GNU General Public License, version 3 (GPLv3)
+ * @version   0.1.0
+ * @since     0.1.0
+ */
+ -->
 <config>
-	<modules>
-		<Itabs_ShipTaxClass>
-			<version>0.1.0</version>
-		</Itabs_ShipTaxClass>
-	</modules>
-
-	<global>
-		<models>
-			<shiptaxclass>
-				<class>Itabs_ShipTaxClass_Model</class>
-			</shiptaxclass>
-			<tax>
-				<rewrite>
-					<config>Itabs_ShipTaxClass_Model_Config</config>
-				</rewrite>
-			</tax>
-		</models>
-		<events>
-			<sales_quote_collect_totals_before>
-				<observers>
-					<shiptaxclass_observer>
-						<type>singleton</type>
-						<class>shiptaxclass/observer</class>
-						<method>salesQuoteCollectTotalsBefore</method>
-					</shiptaxclass_observer>
-				</observers>
-			</sales_quote_collect_totals_before>
-		</events>
-	</global>
-
+    <modules>
+        <Itabs_ShipTaxClass>
+            <version>0.1.0</version>
+        </Itabs_ShipTaxClass>
+    </modules>
+    <global>
+        <models>
+            <shiptaxclass>
+                <class>Itabs_ShipTaxClass_Model</class>
+            </shiptaxclass>
+            <tax>
+                <rewrite>
+                    <config>Itabs_ShipTaxClass_Model_Config</config>
+                </rewrite>
+            </tax>
+        </models>
+        <events>
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <shiptaxclass_observer>
+                        <type>singleton</type>
+                        <class>shiptaxclass/observer</class>
+                        <method>salesQuoteCollectTotalsBefore</method>
+                    </shiptaxclass_observer>
+                </observers>
+            </sales_quote_collect_totals_before>
+        </events>
+    </global>
 </config>
