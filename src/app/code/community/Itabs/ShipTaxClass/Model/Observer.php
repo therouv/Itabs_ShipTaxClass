@@ -53,7 +53,7 @@ class Itabs_ShipTaxClass_Model_Observer
 
         $_taxCalculationRateId = Mage::getModel('tax/calculation')
             ->getCollection()
-            ->getItemById($item->getTaxClassId())
+            ->addFieldToFilter('product_tax_class_id',$item->getTaxClassId())->getFirstItem()
             ->getTaxCalculationRateId();
         $_taxPercent = Mage::getModel('tax/calculation_rate')
             ->getCollection()
