@@ -53,7 +53,8 @@ class Itabs_ShipTaxClass_Model_Observer
 
         $_taxCalculationRateId = Mage::getModel('tax/calculation')
             ->getCollection()
-            ->addFieldToFilter('product_tax_class_id',$item->getTaxClassId())->getFirstItem()
+            ->addFieldToFilter('product_tax_class_id', $item->getTaxClassId())
+            ->getFirstItem()
             ->getTaxCalculationRateId();
         $_taxPercent = Mage::getModel('tax/calculation_rate')
             ->getCollection()
@@ -89,8 +90,9 @@ class Itabs_ShipTaxClass_Model_Observer
 
             if (count($_quoteItems) > 0) {
                 foreach ($_quoteItems as $_item) {
-                    if($_item->getParentItem() && $_item->getParentItem()->getProduct()->getTypeId() != 'bundle')
+                    if ($_item->getParentItem() && $_item->getParentItem()->getProduct()->getTypeId() != 'bundle') {
                         continue;
+                    }
                     $_taxPercent = $_item->getTaxPercent();									// Get tax percent of product
                     if (!$_taxPercent || $_taxPercent == '') {
                         $_taxPercent = $this->_loadTaxCalculationRate($_item);
